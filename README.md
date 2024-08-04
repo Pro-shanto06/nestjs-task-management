@@ -1,73 +1,168 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# NestJS Authentication and Task Management Service
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+## Overview
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+This project is a NestJS application providing authentication services using JWT and task management functionalities. It includes user registration, login, and task operations such as creation, retrieval, updating, and deletion.
 
-## Description
+## Features
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+- **Authentication**
+  - User Registration: Sign up with a username and password.
+  - User Login: Authenticate users and return a JWT access token.
+  - Password Hashing: Securely hash passwords using `bcryptjs`.
+  - JWT Authentication: Generate and verify JWT tokens for secure access.
 
-## Installation
+- **Task Management**
+  - Create Task: Create new tasks with title and description.
+  - Retrieve Task: Get a task by ID.
+  - Update Task Status: Update the status of an existing task.
+  - Delete Task: Remove a task by ID.
+  - List Tasks: Retrieve tasks with filtering options.
 
-```bash
-$ npm install
-```
+## Getting Started
 
-## Running the app
+### Prerequisites
 
-```bash
-# development
-$ npm run start
+- Node.js
+- NestJS CLI
+- PostgreSQL
 
-# watch mode
-$ npm run start:dev
+### Installation
 
-# production mode
-$ npm run start:prod
-```
+1. **Clone the Repository**
 
-## Test
+    ```bash
+    git clone https://github.com/Pro-shanto06/nestjs-task-management
+    cd nestjs-task-management
+    ```
 
-```bash
-# unit tests
-$ npm run test
+2. **Install Dependencies**
 
-# e2e tests
-$ npm run test:e2e
+    ```bash
+    npm install
+    ```
 
-# test coverage
-$ npm run test:cov
-```
+3. **Setup Environment Variables**
 
-## Support
+    Create a `.env` file in the root directory and add your environment variables. Example:
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+    ```env
+    PORT=3000
+    JWT_SECRET=your_jwt_secret
+    ```
 
-## Stay in touch
+4. **Database Configuration**
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+    Configure your database. Example configuration for PostgreSQL:
 
-## License
+    ```json
+    {
+      "type": "postgres",
+      "host": "localhost",
+      "port": 5432,
+      "username": "your-username",
+      "password": "your-password",
+      "database": "your-database",
+      "autoLoadEntities": true,
+      "synchronize": true
+    }
+    ```
 
-Nest is [MIT licensed](LICENSE).
+5. **Run the Application**
+
+    ```bash
+    npm run start
+    ```
+
+## Endpoints
+
+### Authentication
+
+#### Register a New User
+
+- **Endpoint**: `POST /auth/signup`
+- **Request Body**:
+
+    ```json
+    {
+      "username": "string",
+      "password": "string"
+    }
+    ```
+
+- **Responses**:
+  - `201 Created`: User successfully created.
+  - `400 Bad Request`: Validation errors.
+
+#### Log In
+
+- **Endpoint**: `POST /auth/signin`
+- **Request Body**:
+
+    ```json
+    {
+      "username": "string",
+      "password": "string"
+    }
+    ```
+
+- **Responses**:
+  - `200 OK`: Successful login, returns JWT token.
+  - `401 Unauthorized`: Invalid credentials.
+
+### Task Management
+
+#### Create a Task
+
+- **Endpoint**: `POST /tasks`
+- **Request Body**:
+
+    ```json
+    {
+      "title": "string",
+      "description": "string"
+    }
+    ```
+
+- **Responses**:
+  - `201 Created`: Task successfully created.
+  - `400 Bad Request`: Validation errors.
+
+#### Retrieve a Task
+
+- **Endpoint**: `GET /tasks/:id`
+- **Responses**:
+  - `200 OK`: Returns the requested task.
+  - `404 Not Found`: Task not found.
+
+#### Update Task Status
+
+- **Endpoint**: `PATCH /tasks/:id/status`
+- **Request Body**:
+
+    ```json
+    {
+      "status": "OPEN|IN_PROGRESS|DONE"
+    }
+    ```
+
+- **Responses**:
+  - `200 OK`: Task status successfully updated.
+  - `404 Not Found`: Task not found.
+
+#### Delete a Task
+
+- **Endpoint**: `DELETE /tasks/:id`
+- **Responses**:
+  - `204 No Content`: Task successfully deleted.
+  - `404 Not Found`: Task not found.
+
+#### List Tasks
+
+- **Endpoint**: `GET /tasks`
+- **Query Parameters**:
+  - `status` (optional): Filter tasks by status.
+  - `search` (optional): Search tasks by title or description.
+
+- **Responses**:
+  - `200 OK`: Returns a list of tasks based on filters.
